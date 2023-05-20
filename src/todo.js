@@ -25,8 +25,27 @@ const addButtonClick = (ref, type, ...funcs) => {
 
 
 const grabDom = (element) =>{
-    const item = document.querySelector(`.${element}`);
-    return item;
+    let selector;
+    if(element.startsWith('.')){
+        selector = element;
+    }
+    else if(element.startsWith('#')){
+        selector = element;
+    }
+    const item = document.querySelector(selector);
+    return item ? item : null;
+}
+
+const grabDomValue = (element) =>{
+    let selector;
+    if(element.startsWith('.')){
+        selector = element;
+    }
+    else if(element.startsWith('#')){
+        selector = element;
+    }
+    const item = document.querySelector(selector);
+    return item ? item.value : null;
 }
 
 //SUCCESSFULLY MADE SOME DYNAMIC CODE!!!!!
@@ -35,10 +54,38 @@ const toggleMenu = (select, className) =>{
     element.classList.toggle(`${className}`);
 }
 
+const projects = [];
+console.log(projects);
+
 const newProject = () => {
+
+    const title = grabDomValue('#title');
+    const description = grabDomValue('#description');
+    const dueDate = grabDomValue('#due-date');
+    const priority = grabDomValue('#priority');
+    const notes = grabDomValue('#notes');
+
+    const toDoList = new TodoList(title, description, dueDate, priority, notes);
+    projects.push(toDoList);
 
 }
 
+const clearForm = () =>{
+    const form = grabDom('.form');
+    form.reset();
+}
+
+const submit = () =>{
+    const form = grabDom('.form');
+    console.log(form);
+    form.addEventListener('submit', (event)=>{
+        event.preventDefault();
+        newProject();
+        clearForm();
+    });
+}
+
+submit();
 
 //On click add new html file that shows a screen to make a new object from ToDoList
 //Also takes in Project Name and adds it to left side menu.
