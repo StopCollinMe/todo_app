@@ -50,10 +50,13 @@
 
 .mdi-menu:hover{
     cursor: grab;
+    background-color: rgb(255, 255, 255);
+    border-radius: 50%;
 }
 
 .tabbed
 {
+    border-radius: 50%;
     background-color: rgb(255, 255, 255);
 }
 
