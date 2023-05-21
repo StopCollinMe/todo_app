@@ -73,9 +73,18 @@
     width: 20%;
     height: calc(100% - 3rem);
     display: grid;
-    grid-template-rows: repeat(4, minmax(auto, 3.5%));
+    grid-template-rows: repeat(auto-fill, 3.5%);
     gap: .5px;
     background-color: rgb(248, 248, 248);
+    margin: 0;
+    padding-top: .5em;
+}
+
+@media screen and (max-height: 100vh){
+    .menu {
+        overflow-y: auto;
+        background-color: rgb(248,248,248);
+    }
 }
 
 .display{

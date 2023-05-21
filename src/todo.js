@@ -54,19 +54,53 @@ const toggleMenu = (select, className) =>{
     element.classList.toggle(`${className}`);
 }
 
-const projects = [];
-console.log(projects);
+const project = [];
+const toDo = [];
 
-const newProject = () => {
 
+const newProject = () =>{
+    const projectName = grabDomValue('#project');
+    project.push(projectName);
+    pushProject();
+}
+
+
+const pushProject = () =>{
+    const element = grabDom('.menu');
+    element.innerHTML = '';
+
+    project.forEach((projectName)=>{
+        const newDiv = document.createElement('div');
+        newDiv.innerText = projectName;
+        element.appendChild(newDiv);
+    });
+}
+
+
+//We need to make a way to append a new child div to the newProject
+
+const newToDo = () => {
+    const projectName = grabDomValue('#project');
     const title = grabDomValue('#title');
     const description = grabDomValue('#description');
     const dueDate = grabDomValue('#due-date');
     const priority = grabDomValue('#priority');
     const notes = grabDomValue('#notes');
 
-    const toDoList = new TodoList(title, description, dueDate, priority, notes);
-    projects.push(toDoList);
+    const toDoList = new TodoList(projectName, title, description, dueDate, priority, notes);
+    toDo.push(toDoList);
+    pushToDo();
+
+}
+
+
+
+ //Pushes the title to the left
+
+const pushToDo = () =>{
+//Figure out how to push the title of the newToDo to the project if it has the same projectName
+
+
 
 }
 
@@ -77,9 +111,9 @@ const clearForm = () =>{
 
 const submit = () =>{
     const form = grabDom('.form');
-    console.log(form);
     form.addEventListener('submit', (event)=>{
         event.preventDefault();
+        newToDo();
         newProject();
         clearForm();
     });
@@ -90,19 +124,10 @@ submit();
 //On click add new html file that shows a screen to make a new object from ToDoList
 //Also takes in Project Name and adds it to left side menu.
 //After Project Name is added a
-addButtonClick('mdi-plus','class', ()=> newProject());
+addButtonClick('mdi-plus','class', ()=> newToDo());
 addButtonClick('mdi-menu','class',()=> toggleMenu('menu','hide'),()=> 
 toggleMenu('mdi-menu','tabbed'), ()=> 
 toggleMenu('display','toggleDisplay'));
 
-//Make this dynamic based off of input via webpage.
-//Add limitations
-//Add calender? Might be too ambitious
 
-const first = new TodoList('first', 'description','3/30', 'first', 'Yes', 'checklist');
-
-console.log(first);
-
-//Add projectAdder to menu
-//Add projectChild to project created by projectAdder
-
+//Add evenListner click to every div in left bar that brings up your
