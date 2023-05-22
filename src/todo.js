@@ -57,7 +57,7 @@ const toggleMenu = (select, className) =>{
 const project = [];
 const toDo = [];
 
-
+console.log(toDo);
 const newProject = () =>{
     const projectName = grabDomValue('#project');
     project.push(projectName);
@@ -72,9 +72,46 @@ const pushProject = () =>{
     project.forEach((projectName)=>{
         const newDiv = document.createElement('div');
         newDiv.innerText = projectName;
+        newDiv.classList.add(projectName);
         element.appendChild(newDiv);
+        findMonkey();
     });
 }
+
+
+
+//This might be what we need!
+//The first time I've gotten something to append. 
+//Figure this out tomorrow hopefully...
+  const findMonkey = () => {
+    const monkey = document.querySelector('.Monkey');
+    if (monkey) {
+      const newDiv = document.createElement('div');
+      newDiv.innerText = 'Sandwich!';
+      monkey.appendChild(newDiv);
+    }
+  };
+
+  // Create a new MutationObserver
+  const observer = new MutationObserver((mutationsList, observer) => {
+    for (const mutation of mutationsList) {
+      // Check if a node was added to the DOM
+      if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+        // Check if the added node has the class "Monkey"
+        if (mutation.addedNodes[0].classList.contains('Monkey')) {
+          // Call findMonkey when the Monkey element is found
+          findMonkey();
+
+          // Disconnect the observer since it's no longer needed
+          observer.disconnect();
+          break;
+        }
+      }
+    }
+  });
+
+  // Start observing changes in the document's body
+  observer.observe(document.body, { childList: true, subtree: true });
 
 
 //We need to make a way to append a new child div to the newProject
@@ -89,20 +126,29 @@ const newToDo = () => {
 
     const toDoList = new TodoList(projectName, title, description, dueDate, priority, notes);
     toDo.push(toDoList);
-    pushToDo();
+    // pushToDo();
+    loopThroughToDoforTitle();
 
 }
 
+// const pushToDo = () => {
+//     const divElements = Array.from(document.getElementsByTagName('div'));
+//     console.log(divElements);
+//     toDo.forEach((todo) =>{
+//     const foundDiv = divElements.find(div => div.innerText === `${todo.title}`);
+//     console.log(foundDiv);
+//         if(foundDiv){
+//             const newDiv = document.createElement('div');
+            
+//             newDiv.innerText = todo.title;
+//             console.log(newDiv);
+//             console.log(newDiv.innerText);
+//             foundDiv.appendChild(newDiv);
 
-
- //Pushes the title to the left
-
-const pushToDo = () =>{
-//Figure out how to push the title of the newToDo to the project if it has the same projectName
-
-
-
-}
+//         }
+//     });
+//   };
+  
 
 const clearForm = () =>{
     const form = grabDom('.form');
@@ -118,6 +164,14 @@ const submit = () =>{
         clearForm();
     });
 }
+
+const loopThroughToDoforTitle = () => {
+
+  };
+
+
+
+
 
 submit();
 
