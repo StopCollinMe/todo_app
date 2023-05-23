@@ -60,6 +60,9 @@
     border-radius: 50%;
 }
 
+.menu div:hover{
+    cursor: grab;
+}
 
 
 .tabbed
@@ -106,7 +109,7 @@
 
 }
 
-.display h3{
+.display h3, .inner-span{
     padding-top: 2rem;
     padding-bottom: 2rem;
     align-items: center;
@@ -128,11 +131,6 @@
     padding-left: 2em;
 }
 
-
-
-.hide{
-    display: none;
-}
 
 .textArea{
     display: flex;
@@ -172,4 +170,51 @@ label{
 
 #submit{
     margin-top: 4em;
+}
+
+
+
+.pikachu{
+
+    display: flex;
+    position: relative;
+    width: 40em;
+    height: 25em;
+    align-items: center;
+    margin-top: 1.5rem;
+}
+
+.project-form{
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    background-color: rgb(192, 173, 103);
+    border-radius: 10px;
+    z-index: 0;
+    padding: 1em;
+    top: 4%;
+    left: 30%;
+    right: 30%;
+}
+
+.hide{
+    display: none;
+}
+
+.newSpanParent{
+    display: flex;
+    position: absolute;
+    flex-direction: column;    
+    top: 5%;
+    left: 15%;
+}
+
+.newSpan{ 
+    font-size: 1.3em;
+}
+
+.menu-padding{
+    padding-left: .5em;
 }

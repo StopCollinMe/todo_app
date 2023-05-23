@@ -27,17 +27,30 @@
     </header>
     <div class="menu hide">
         <!-- This is where you push your projects to see them in the left hamburger menu. -->
+        <!-- Figure out why this isn't in the flex of menu and figure out how to append items in js below all of these -->
+            <span class="mdi mdi-inbox menu-padding"></span>
+            <span class="mdi mdi-calendar-question-outline menu-padding"></span>
+            <span class="mdi mdi-calendar-month-outline menu-padding"></span>
     </div>
     <div class="display">
-        <h1>Hello! Welcome to ToDoList!</h1>
-        <h3>Let's start a new Project!</h3>
 
         <form class="form">
+            <h1>There's nothing here!</h1>
+            <h3>Let's start a new Project!</h3>
 
-            <div class="form-row">
+            <span class="mdi mdi-plus inner-span">New Project</span>
+
+            <img src="/src/imgs/surprised-pikachu.png" class="pikachu" alt="">
+        </form>
+
+
+        <form class="project-form hide">
                 <label for="project">Project Name: </label>
                 <input type="text" id="project">
-            </div>
+                <input type="submit" id="submit"></input>
+        </form>
+
+        <!-- <form class="form">
 
             <div class="form-row">
                 <label for="title">Title: </label>
@@ -63,17 +76,12 @@
                 <label for="notes">Notes: </label>
                 <input type="text" id="notes">
             </div>
-
-            <!-- <div class="form-row">
-                <label for="checkbox">Done: </label>
-                <input type="checkbox" id="checkbox">
-            </div> -->
             
             <div class="form-row">
                 <input type="submit" id="submit"></input>
             </div>
+        </form> -->
 
-        </form>
     </div>
 </body>
 </html>

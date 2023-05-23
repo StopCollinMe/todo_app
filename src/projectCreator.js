@@ -5,8 +5,7 @@
 // }
 
 class TodoList{
-    constructor(projectName, title,description,dueDate,priority,notes,checklist){
-        this.projectName = projectName;
+    constructor(title,description,dueDate,priority,notes,checklist){
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
