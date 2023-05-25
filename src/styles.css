@@ -47,6 +47,13 @@
     color: rgb(136, 111, 28);
 }
 
+.menu div{
+    font-size:1.125em;
+    color: rgb(136, 111, 28);
+    margin-top: 7%;
+    margin-left: -9%;
+}
+
 .mdi-menu{
     margin-left: 1em;
     padding-right: .12em;
@@ -77,11 +84,13 @@
     height: calc(100% - 3rem);
     display: grid;
     grid-template-rows: repeat(auto-fill, 3.5%);
-    gap: .5px;
+    gap: .5em;
     background-color: rgb(248, 248, 248);
     margin: 0;
     padding-top: .5em;
+
 }
+
 
 @media screen and (max-height: 100vh){
     .menu {
@@ -149,6 +158,8 @@
 }
 
 
+
+
 input {
     width: 15rem; /* Adjust the width as needed */
     padding: .5em;
@@ -168,7 +179,7 @@ label{
     width: 7rem;
 }
 
-#submit{
+#submit, #project-submit, #todo-submit{
     margin-top: 4em;
 }
 
@@ -191,12 +202,31 @@ label{
     align-items: center;
     align-content: center;
     background-color: rgb(192, 173, 103);
+    border: rgb(0, 0, 0) solid 1px;
     border-radius: 10px;
     z-index: 0;
     padding: 1em;
     top: 4%;
     left: 30%;
     right: 30%;
+}
+
+/*Could've added this to the above styling, but I wanted to write it out to try to memorize it.*/
+.todo-form{
+    display: flex;
+    flex-direction: column;
+    /* For some reason absolute changes the bar of background color of about 
+    two 100% width rows to the background of the flex we created */
+    position: absolute;
+    z-index: 0;
+    align-items: center;
+    align-content: center;
+    border-radius: 10px;
+    padding: 1em;
+    top: 4%;
+    left: 30%;
+    right: 30%;
+    background-color: rgb(192, 173, 103);
 }
 
 .hide{
@@ -218,3 +248,21 @@ label{
 .menu-padding{
     padding-left: .5em;
 }
+
+.menu span:hover{
+    cursor: grab;
+}
+
+.menu span p{
+    display: inline-block;
+    position: relative;
+    font-size: .75em;
+    padding-left: .5em;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+    bottom: 15%;
+}
+

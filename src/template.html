@@ -28,9 +28,13 @@
     <div class="menu hide">
         <!-- This is where you push your projects to see them in the left hamburger menu. -->
         <!-- Figure out why this isn't in the flex of menu and figure out how to append items in js below all of these -->
-            <span class="mdi mdi-inbox menu-padding"></span>
-            <span class="mdi mdi-calendar-question-outline menu-padding"></span>
-            <span class="mdi mdi-calendar-month-outline menu-padding"></span>
+        <span class="mdi mdi-inbox menu-padding"><p>Inbox</p></span>
+        <span class="mdi mdi-calendar-question-outline menu-padding"><p>Today</p></span>
+        <span class="mdi mdi-calendar-month-outline menu-padding"><p>Upcoming</p></span>
+        <div class="projects">Projects
+            <!-- Write css for these guys in here. .projects div, make sure to add an icon on creation as well -->
+        </div>
+
     </div>
     <div class="display">
 
@@ -47,10 +51,10 @@
         <form class="project-form hide">
                 <label for="project">Project Name: </label>
                 <input type="text" id="project">
-                <input type="submit" id="submit"></input>
+                <input type="submit" id="project-submit"></input>
         </form>
 
-        <!-- <form class="form">
+        <form class="todo-form hide">
 
             <div class="form-row">
                 <label for="title">Title: </label>
@@ -78,9 +82,9 @@
             </div>
             
             <div class="form-row">
-                <input type="submit" id="submit"></input>
+                <input type="submit" id="todo-submit"></input>
             </div>
-        </form> -->
+        </form>
 
     </div>
 </body>

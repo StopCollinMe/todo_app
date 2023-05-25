@@ -66,8 +66,7 @@ const newProject = () =>{
 
 
 const pushProject = () =>{
-    const element = grabDom('.menu');
-    element.innerHTML = '';
+    const element = grabDom('.projects');
 
     project.forEach((projectName)=>{
         const newDiv = document.createElement('div');
@@ -83,17 +82,82 @@ const pushProject = () =>{
 //Do this
 const loadToDo = () => {
     const display = document.querySelector('.display');
+
+    //This is dangerous!!!!!! DO NOT REMOVE ALL OF INNNERHTML Unless you know what you're doing!!!
+    //Your hidden elements will go missing too. And cause a lot of stupid trouble
+
     display.innerHTML = '';
+    const newHTML = `<form class="todo-form hide">
+
+    <div class="form-row">
+        <label for="title">Title: </label>
+        <input type="text" id="title">
+    </div>
+
+    <div class="form-row">
+        <label for="description">Description: </label>
+        <input type="text" id="description">
+    </div>
+
+    <div class="form-row">
+        <label for="due-date">Due date:</label>
+        <input type="text" id="due-date">
+    </div>
+
+    <div class="form-row">
+        <label for="priority">Priority: </label>
+        <input type="text" id="priority">
+    </div>
+
+    <div class="form-row">
+        <label for="notes">Notes: </label>
+        <input type="text" id="notes">
+    </div>
+    
+    <div class="form-row">
+        <input type="submit" id="todo-submit"></input>
+    </div>
+</form>`
+    display.innerHTML = newHTML;
+
    //Figure out why this is clearing the left side bar instead of appending below the existing content.
+
     const newDiv = document.createElement('div');
     newDiv.classList.add('newSpanParent')
     display.append(newDiv);
+
 
     const newSpan = document.createElement('span');
     newSpan.innerText = 'New To Do';
     newSpan.classList.add('mdi','mdi-plus', 'newSpan');
     newDiv.append(newSpan);
+    newSpan.addEventListener('click', () => {
+        const todoForm = document.querySelector('.todo-form');
+        todoForm.classList.remove('hide');
+    });
+
+    const form = grabDom('.todo-form');
+
+    //Don't be lazy. Just make a new div and clear the innerHTML...
+    const containerDiv = document.createElement('div');
+    containerDiv.classList.add('todo-container');
+    newSpan.append(containerDiv);
+
+    form.addEventListener('submit', (event)=>{
+        event.preventDefault();
+        newToDo();
+        clearForm('.todo-form');
+        containerDiv.innerHTML = '';
+
+        toDo.forEach((todo) => {
+            const newDiv = document.createElement('div');
+            newDiv.innerText = todo.title;
+            containerDiv.append(newDiv);
+        });
+    });
+    addButtonClick('todo-submit','id', ()=>hide('.todo-form'));
 }
+
 
 
 
@@ -109,7 +173,6 @@ const newToDo = () => {
     const toDoList = new TodoList(title, description, dueDate, priority, notes);
     toDo.push(toDoList);
     // pushToDo();
-    loopThroughToDoforTitle();
 
 }
   
@@ -120,12 +183,11 @@ const clearForm = (name) =>{
 }
 
 const submit = () =>{
-    const form = grabDom('.form');
+    const form = grabDom('.todo-form');
     form.addEventListener('submit', (event)=>{
         event.preventDefault();
         newToDo();
-        newProject();
-        clearForm();
+        clearForm('.todo-form');
     });
 }
 
@@ -149,6 +211,7 @@ const submitProject = () =>{
     });
 }
 
+submit();
 submitProject();
 
 //On click add new html file that shows a screen to make a new object from ToDoList
@@ -156,7 +219,10 @@ submitProject();
 //After Project Name is added a
 
 addButtonClick('inner-span','class', ()=>removeHide('.project-form'));
-addButtonClick('submit','id', ()=>hide('.project-form'));
+addButtonClick('project-submit','id', ()=>hide('.project-form'));
+
+addButtonClick('todo-submit','id', ()=>hide('.todo-form'));
+
 addButtonClick('mdi-plus','class', ()=> newToDo());
 addButtonClick('mdi-menu','class',()=> toggleMenu('menu','hide'),()=> 
 toggleMenu('mdi-menu','tabbed'), ()=> 
