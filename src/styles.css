@@ -237,8 +237,9 @@ label{
     display: flex;
     position: absolute;
     flex-direction: column;    
-    top: 5%;
+    top: 7%;
     left: 15%;
+    padding-top: 1.5em;
 }
 
 .newSpan{ 
@@ -266,3 +267,32 @@ label{
     bottom: 15%;
 }
 
+.newSpan {
+    padding-top: .25em;
+}
+
+.todo-container div{
+    color: rgb(192, 173, 103);
+    font-size: 1.12em;
+}
+
+.todo-container button{
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    border: rgb(214, 214, 214) solid 1.25px !important;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+
+.todo-container button:hover{
+    background-color: rgb(117, 240, 117);
+}
+
+.newH1{
+    position: absolute;
+    top: -1.6em;
+    color: rgb(136, 111, 28);
+    margin-bottom: 8em;
+    margin-left: .125em;
+}

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, { indexOf } from 'lodash';
 import './styles.css';
 import 'date-fns';
 import '@mdi/font/css/materialdesignicons.css';
@@ -87,6 +87,9 @@ const loadToDo = () => {
     //Your hidden elements will go missing too. And cause a lot of stupid trouble
 
     display.innerHTML = '';
+
+    //Next time write more html so you don't have to worry about z-index confusion.
+    //We're not fixing it here, but we'll fix it in the next project. It'll be simpler, but we're to deep rn
     const newHTML = `<form class="todo-form hide">
 
     <div class="form-row">
@@ -136,23 +139,64 @@ const loadToDo = () => {
         todoForm.classList.remove('hide');
     });
 
+
+    // Make this into an event listener when we click the project name
+
     const form = grabDom('.todo-form');
+
+
 
     //Don't be lazy. Just make a new div and clear the innerHTML...
     const containerDiv = document.createElement('div');
     containerDiv.classList.add('todo-container');
-    newSpan.append(containerDiv);
+    newDiv.prepend(containerDiv);
+
+    const newH1 = document.createElement('h1');
+    newH1.classList.add('newH1')
+    newH1.innerText = 'Hello'; //Eventually make this the project name we're working on.
+    newDiv.insertBefore(newH1, containerDiv);
 
     form.addEventListener('submit', (event)=>{
         event.preventDefault();
         newToDo();
         clearForm('.todo-form');
         containerDiv.innerHTML = '';
-
+        //Make this toDo dynamic so that when we click on the left it opens the correct one, AND once you make the project it knows where to go
         toDo.forEach((todo) => {
+            const wrapperDiv = document.createElement('div');
+            const newButton = document.createElement('button');
             const newDiv = document.createElement('div');
+            const descriptionDiv = document.createElement('div');
+
             newDiv.innerText = todo.title;
-            containerDiv.append(newDiv);
+            descriptionDiv.innerText = todo.description;
+
+            wrapperDiv.style.borderBottom = '1px solid rgb(214, 214, 214)';
+
+
+
+            newDiv.style.marginBottom = '.25em';
+            descriptionDiv.style.marginBottom ='1em';
+            descriptionDiv.style.marginLeft = '1.25em';
+            newDiv.style.marginTop = '.25em';
+            newButton.style.display = 'inline-block'; // Set display property to inline-block
+            newDiv.style.display = 'inline-block';
+
+            containerDiv.appendChild(wrapperDiv);
+            wrapperDiv.appendChild(newButton);
+            wrapperDiv.appendChild(newDiv);
+            wrapperDiv.append(descriptionDiv);
+
+            newButton.addEventListener('click', () => {
+                wrapperDiv.innerHTML = '';
+                descriptionDiv.innerHTML = '';
+                wrapperDiv.style = '';
+                const index = toDo.indexOf(todo);
+                if(index != -1){
+                    toDo.splice(index,1);
+                }
+            });
+
         });
     });
     addButtonClick('todo-submit','id', ()=>hide('.todo-form'));
@@ -170,7 +214,13 @@ const newToDo = () => {
     const priority = grabDomValue('#priority');
     const notes = grabDomValue('#notes');
 
+    //We'll try another way first. This one may be the right option.
+    // const toDoLists = [];
+    // toDoLists.push(toDoList);
+    // toDo.push(toDoList); would replace this with the current one similar to this.
+
     const toDoList = new TodoList(title, description, dueDate, priority, notes);
+
     toDo.push(toDoList);
     // pushToDo();
 
@@ -210,6 +260,9 @@ const submitProject = () =>{
         loadToDo();
     });
 }
+
+
+
 
 submit();
 submitProject();
