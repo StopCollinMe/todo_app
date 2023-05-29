@@ -66,7 +66,8 @@ const newProject = () =>{
 
 
 const pushProject = () =>{
-    const element = grabDom('.projects');
+    const element = grabDom('.projDisplay');
+    element.innerHTML = '';
 
     project.forEach((projectName)=>{
         const newDiv = document.createElement('div');
@@ -75,7 +76,12 @@ const pushProject = () =>{
             loadToDo();
         });
         element.appendChild(newDiv);
+        newDiv.addEventListener('click', ()=> showProjects());
     });
+}
+
+const showProjects = () =>{
+    submitProject();
 }
 
 
@@ -89,8 +95,16 @@ const loadToDo = () => {
     display.innerHTML = '';
 
     //Next time write more html so you don't have to worry about z-index confusion.
-    //We're not fixing it here, but we'll fix it in the next project. It'll be simpler, but we're to deep rn
-    const newHTML = `<form class="todo-form hide">
+    //We're not fixing it here, but we'll fix it in the next project. It'll be simpler, but we're too deep rn
+    const newHTML = `
+<form class="project-form hide">
+        <label for="project">Project Name: </label>
+        <input type="text" id="project">
+        <input type="submit" id="project-submit"></input>
+</form>
+        
+    
+<form class="todo-form hide">
 
     <div class="form-row">
         <label for="title">Title: </label>
@@ -130,6 +144,7 @@ const loadToDo = () => {
     display.append(newDiv);
 
 
+
     const newSpan = document.createElement('span');
     newSpan.innerText = 'New To Do';
     newSpan.classList.add('mdi','mdi-plus', 'newSpan');
@@ -162,44 +177,48 @@ const loadToDo = () => {
         clearForm('.todo-form');
         containerDiv.innerHTML = '';
         //Make this toDo dynamic so that when we click on the left it opens the correct one, AND once you make the project it knows where to go
-        toDo.forEach((todo) => {
-            const wrapperDiv = document.createElement('div');
-            const newButton = document.createElement('button');
-            const newDiv = document.createElement('div');
-            const descriptionDiv = document.createElement('div');
+        
+        
+            toDo.forEach((todo) => {
+                const wrapperDiv = document.createElement('div');
+                const newButton = document.createElement('button');
+                const newDiv = document.createElement('div');
+                const descriptionDiv = document.createElement('div');
 
-            newDiv.innerText = todo.title;
-            descriptionDiv.innerText = todo.description;
+                newDiv.innerText = todo.title;
+                descriptionDiv.innerText = todo.description;
 
-            wrapperDiv.style.borderBottom = '1px solid rgb(214, 214, 214)';
+                wrapperDiv.style.borderBottom = '1px solid rgb(214, 214, 214)';
 
 
 
-            newDiv.style.marginBottom = '.25em';
-            descriptionDiv.style.marginBottom ='1em';
-            descriptionDiv.style.marginLeft = '1.25em';
-            newDiv.style.marginTop = '.25em';
-            newButton.style.display = 'inline-block'; // Set display property to inline-block
-            newDiv.style.display = 'inline-block';
+                newDiv.style.marginBottom = '.25em';
+                descriptionDiv.style.marginBottom ='1em';
+                descriptionDiv.style.marginLeft = '1.25em';
+                newDiv.style.marginTop = '.25em';
+                newButton.style.display = 'inline-block'; // Set display property to inline-block
+                newDiv.style.display = 'inline-block';
 
-            containerDiv.appendChild(wrapperDiv);
-            wrapperDiv.appendChild(newButton);
-            wrapperDiv.appendChild(newDiv);
-            wrapperDiv.append(descriptionDiv);
+                containerDiv.appendChild(wrapperDiv);
+                wrapperDiv.appendChild(newButton);
+                wrapperDiv.appendChild(newDiv);
+                wrapperDiv.append(descriptionDiv);
 
-            newButton.addEventListener('click', () => {
-                wrapperDiv.innerHTML = '';
-                descriptionDiv.innerHTML = '';
-                wrapperDiv.style = '';
-                const index = toDo.indexOf(todo);
-                if(index != -1){
-                    toDo.splice(index,1);
-                }
+                newButton.addEventListener('click', () => {
+                    wrapperDiv.innerHTML = '';
+                    descriptionDiv.innerHTML = '';
+                    wrapperDiv.style = '';
+                    const index = toDo.indexOf(todo);
+                    if(index != -1){
+                        toDo.splice(index,1);
+                    }
+                });
+
             });
-
         });
-    });
+        
     addButtonClick('todo-submit','id', ()=>hide('.todo-form'));
+    submitProject();
 }
 
 
@@ -208,6 +227,7 @@ const loadToDo = () => {
 //We need to make a way to append a new child div to the newProject
 
 const newToDo = () => {
+
     const title = grabDomValue('#title');
     const description = grabDomValue('#description');
     const dueDate = grabDomValue('#due-date');
@@ -263,7 +283,6 @@ const submitProject = () =>{
 
 
 
-
 submit();
 submitProject();
 
@@ -271,8 +290,13 @@ submitProject();
 //Also takes in Project Name and adds it to left side menu.
 //After Project Name is added a
 
+addButtonClick('addProjectNav','class', ()=>removeHide('.project-form'));
+addButtonClick('addProjectMenu','class', ()=>removeHide('.project-form'));
+
 addButtonClick('inner-span','class', ()=>removeHide('.project-form'));
 addButtonClick('project-submit','id', ()=>hide('.project-form'));
+
+
 
 addButtonClick('todo-submit','id', ()=>hide('.todo-form'));
 

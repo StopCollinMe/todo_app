@@ -68,7 +68,7 @@
 }
 
 .menu div:hover{
-    cursor: grab;
+    cursor: grab;    
 }
 
 
@@ -90,6 +90,8 @@
     padding-top: .5em;
 
 }
+
+
 
 
 @media screen and (max-height: 100vh){
@@ -295,4 +297,26 @@ label{
     color: rgb(136, 111, 28);
     margin-bottom: 8em;
     margin-left: .125em;
+}
+
+.proj-bar{
+    display: inline-block;
+    position: absolute;
+    left: 73%;
+    top: 15%;
+
+}
+.proj-bar span{
+    font-size: 1.125em;
+     /* Scale the element to 80% of its original size */
+}
+
+.projDisplay{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: -348%;
+}
+.projDisplay div{
+    font-size: .75em;
 }
