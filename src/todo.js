@@ -1,9 +1,46 @@
-import _, { indexOf } from 'lodash';
+import _, { create, indexOf } from 'lodash';
 import './styles.css';
 import 'date-fns';
 import '@mdi/font/css/materialdesignicons.css';
-import './projectCreator';
-import { TodoList } from './projectCreator';
+
+import './toDoCreator';
+import { TodoList } from './toDoCreator';
+
+import './projectObject';
+import {projectData} from './projectObject';
+
+import { format, compareAsc } from 'date-fns';
+
+
+
+
+const saveDataToLocalStorage = () =>{
+    localStorage.setItem('projectData', JSON.stringify(project));
+    localStorage.setItem('todoData', JSON.stringify(toDo));
+};
+
+
+const getDataFromLocalStorage = () => {
+    const storedProjects = localStorage.getItem('projectData');
+    const storedTodos = localStorage.getItem('todoData');
+    if(storedProjects && storedTodos) {
+        return {
+            projects: JSON.parse(storedProjects),
+            todos: JSON.parse(storedTodos),
+            
+        };
+    } else{
+        return{
+            projects: [],
+            todos: [],
+        };  
+    }
+};
+
+const storedData = getDataFromLocalStorage();
+const project = storedData.projects;
+const toDo = storedData.todos;
+let currentProject;
 
 
 //Automates selecting element, adding an event listener, and adding functionality
@@ -54,15 +91,26 @@ const toggleMenu = (select, className) =>{
     element.classList.toggle(`${className}`);
 }
 
-const project = [];
-const toDo = [];
+
 
 console.log(toDo);
 const newProject = () =>{
     const projectName = grabDomValue('#project');
     project.push(projectName);
     pushProject();
+    currentProject = createProjectObject(projectName);
+    saveDataToLocalStorage();
 }
+
+const createProjectObject = (name) =>{
+    const projObj = new projectData(name);
+    projObj.name = name;
+    projObj.todos = [];
+    console.log(projObj.name);
+    return projObj;
+}
+
+let myNewH1;
 
 
 const pushProject = () =>{
@@ -72,8 +120,12 @@ const pushProject = () =>{
     project.forEach((projectName)=>{
         const newDiv = document.createElement('div');
         newDiv.innerText = projectName;
+        const projectObj = createProjectObject(projectName);
         newDiv.addEventListener('click', ()=>{
             loadToDo();
+            myNewH1 = loadToDo();
+            myNewH1.innerText = projectObj.name;
+            //Work here I guess...
         });
         element.appendChild(newDiv);
         newDiv.addEventListener('click', ()=> showProjects());
@@ -168,26 +220,34 @@ const loadToDo = () => {
 
     const newH1 = document.createElement('h1');
     newH1.classList.add('newH1')
-    newH1.innerText = 'Hello'; //Eventually make this the project name we're working on.
+    newH1.innerText = currentProject.name; //Eventually make this the project name we're working on.
+
+    //Does this
+
     newDiv.insertBefore(newH1, containerDiv);
 
     form.addEventListener('submit', (event)=>{
         event.preventDefault();
+
         newToDo();
         clearForm('.todo-form');
         containerDiv.innerHTML = '';
         //Make this toDo dynamic so that when we click on the left it opens the correct one, AND once you make the project it knows where to go
         
-        
-            toDo.forEach((todo) => {
+        //FIGURE OUT IF toDO[0].forEach will work for displaying the object for each project... and figure out how to set 
+        // up an array push for each separate project?
+
+                currentProject.todos.forEach((todo) => {
                 const wrapperDiv = document.createElement('div');
                 const newButton = document.createElement('button');
                 const newDiv = document.createElement('div');
                 const descriptionDiv = document.createElement('div');
+                const dueDate = document.createElement('div');
 
                 newDiv.innerText = todo.title;
                 descriptionDiv.innerText = todo.description;
-
+                dueDate.innerText = `Due: ${todo.dueDate}`;
+                
                 wrapperDiv.style.borderBottom = '1px solid rgb(214, 214, 214)';
 
 
@@ -203,6 +263,7 @@ const loadToDo = () => {
                 wrapperDiv.appendChild(newButton);
                 wrapperDiv.appendChild(newDiv);
                 wrapperDiv.append(descriptionDiv);
+                wrapperDiv.append(dueDate);
 
                 newButton.addEventListener('click', () => {
                     wrapperDiv.innerHTML = '';
@@ -215,10 +276,13 @@ const loadToDo = () => {
                 });
 
             });
+
         });
         
     addButtonClick('todo-submit','id', ()=>hide('.todo-form'));
     submitProject();
+    saveDataToLocalStorage();
+    return newH1;
 }
 
 
@@ -230,19 +294,26 @@ const newToDo = () => {
 
     const title = grabDomValue('#title');
     const description = grabDomValue('#description');
+
+
     const dueDate = grabDomValue('#due-date');
+    format(new Date(dueDate), 'MM/dd/yyyy');
+
+
     const priority = grabDomValue('#priority');
     const notes = grabDomValue('#notes');
 
-    //We'll try another way first. This one may be the right option.
-    // const toDoLists = [];
-    // toDoLists.push(toDoList);
-    // toDo.push(toDoList); would replace this with the current one similar to this.
 
     const toDoList = new TodoList(title, description, dueDate, priority, notes);
 
-    toDo.push(toDoList);
-    // pushToDo();
+
+    //This doesn't work. How would I get it to only push to currentProject.todos if it's the correct one
+
+    currentProject.todos.push(toDoList);
+    console.log(currentProject.todos);
+
+    saveDataToLocalStorage();
+   
 
 }
   
@@ -294,11 +365,12 @@ addButtonClick('addProjectNav','class', ()=>removeHide('.project-form'));
 addButtonClick('addProjectMenu','class', ()=>removeHide('.project-form'));
 
 addButtonClick('inner-span','class', ()=>removeHide('.project-form'));
-addButtonClick('project-submit','id', ()=>hide('.project-form'));
 
 
+addButtonClick('project-submit','id', ()=>hide('.project-form'), () =>saveDataToLocalStorage());
 
-addButtonClick('todo-submit','id', ()=>hide('.todo-form'));
+addButtonClick('todo-submit','id', ()=>hide('.todo-form'), () => saveDataToLocalStorage());
+
 
 addButtonClick('mdi-plus','class', ()=> newToDo());
 addButtonClick('mdi-menu','class',()=> toggleMenu('menu','hide'),()=> 
